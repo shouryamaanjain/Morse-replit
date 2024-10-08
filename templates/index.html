@@ -21,7 +21,9 @@
             <label for="output-text">Output:</label>
             <textarea id="output-text" readonly></textarea>
         </div>
+        <button id="play-morse">Play Morse Code</button>
     </div>
+    <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

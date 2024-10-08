@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const outputTextarea = document.getElementById('output-text');
     const englishToMorseBtn = document.getElementById('english-to-morse');
     const morseToEnglishBtn = document.getElementById('morse-to-english');
+    const playButton = document.getElementById('play-morse');
 
     let currentDirection = 'english_to_morse';
 
@@ -11,9 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (direction === 'english_to_morse') {
             englishToMorseBtn.classList.add('active');
             morseToEnglishBtn.classList.remove('active');
+            playButton.style.display = 'inline-block';
         } else {
             englishToMorseBtn.classList.remove('active');
             morseToEnglishBtn.classList.add('active');
+            playButton.style.display = 'none';
         }
         // Clear both input and output textareas
         inputTextarea.value = '';
@@ -66,6 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const debouncedTranslate = debounce(translate, 300);
 
     inputTextarea.addEventListener('input', debouncedTranslate);
+
+    // Play Morse code audio
+    playButton.addEventListener('click', () => {
+        const morseCode = outputTextarea.value;
+        playMorseCode(morseCode);
+    });
 
     // Initial translation
     setDirection('english_to_morse');
