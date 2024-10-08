@@ -15,7 +15,17 @@ MORSE_CODE_DICT = {
 REVERSE_MORSE_CODE_DICT = {value: key for key, value in MORSE_CODE_DICT.items()}
 
 def english_to_morse(text):
-    return ' '.join(MORSE_CODE_DICT.get(char.upper(), '') for char in text)
+    words = text.upper().split()
+    morse_words = []
+    for word in words:
+        morse_word = ' '.join(MORSE_CODE_DICT.get(char, '') for char in word)
+        morse_words.append(morse_word)
+    return '  '.join(morse_words)  # Two spaces between words
 
 def morse_to_english(morse):
-    return ''.join(REVERSE_MORSE_CODE_DICT.get(code, '') for code in morse.split())
+    words = morse.split('  ')  # Split by two spaces to separate words
+    english_words = []
+    for word in words:
+        english_word = ''.join(REVERSE_MORSE_CODE_DICT.get(code, '') for code in word.split())
+        english_words.append(english_word)
+    return ' '.join(english_words)
