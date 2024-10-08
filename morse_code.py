@@ -9,7 +9,7 @@ MORSE_CODE_DICT = {
     "'": '.----.', '!': '-.-.--', '/': '-..-.', '(': '-.--.', ')': '-.--.-',
     '&': '.-...', ':': '---...', ';': '-.-.-.', '=': '-...-', '+': '.-.-.',
     '-': '-....-', '_': '..--.-', '"': '.-..-.', '$': '...-..-', '@': '.--.-.',
-    ' ': ' '
+    ' ': '/'
 }
 
 REVERSE_MORSE_CODE_DICT = {value: key for key, value in MORSE_CODE_DICT.items()}
@@ -22,11 +22,11 @@ def english_to_morse(text):
             if char in MORSE_CODE_DICT:
                 morse_chars.append(MORSE_CODE_DICT[char])
         morse_words.append(' '.join(morse_chars))
-    return '  '.join(morse_words)  # Two spaces between words
+    return '/'.join(morse_words)  # Use '/' between words
 
 def morse_to_english(morse):
     english_words = []
-    for word in morse.split('  '):  # Split by two spaces to separate words
+    for word in morse.split('/'):  # Split by '/' to separate words
         english_chars = []
         for code in word.split():
             if code in REVERSE_MORSE_CODE_DICT:
