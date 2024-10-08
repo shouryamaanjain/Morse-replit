@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Morse Code Translator</h1>
+        <div class="direction-toggle">
+            <button id="english-to-morse" class="active">English to Morse</button>
+            <button id="morse-to-english">Morse to English</button>
+        </div>
+        <div class="input-group">
+            <label for="input-text">Input:</label>
+            <textarea id="input-text" placeholder="Type your text here..."></textarea>
+        </div>
+        <div class="output-group">
+            <label for="output-text">Output:</label>
+            <textarea id="output-text" readonly></textarea>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
