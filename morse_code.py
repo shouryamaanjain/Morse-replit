@@ -22,11 +22,11 @@ def english_to_morse(text):
             if char in MORSE_CODE_DICT:
                 morse_chars.append(MORSE_CODE_DICT[char])
         morse_words.append(' '.join(morse_chars))
-    return '/'.join(morse_words)  # Use '/' between words
+    return ' / '.join(morse_words)  # Add spaces around '/' between words
 
 def morse_to_english(morse):
     english_words = []
-    for word in morse.split('/'):  # Split by '/' to separate words
+    for word in morse.split(' / '):  # Split by ' / ' to separate words
         english_chars = []
         for code in word.split():
             if code in REVERSE_MORSE_CODE_DICT:
