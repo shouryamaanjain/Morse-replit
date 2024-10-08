@@ -1,54 +1,55 @@
-// Audio context and oscillator setup
-let audioContext;
-let oscillator;
+// Function to calculate the duration of a Morse code sequence
+function calculateMorseDuration(morseCode) {
+    let duration = 0;
+    for (let i = 0; i < morseCode.length; i++) {
+        if (morseCode[i] === '.') {
+            duration += 0.1; // Dot duration
+        } else if (morseCode[i] === '-') {
+            duration += 0.3; // Dash duration
+        } else if (morseCode[i] === ' ') {
+            duration += 0.1; // Space between characters
+        } else if (morseCode[i] === '/') {
+            duration += 0.7; // Space between words
+        }
+        duration += 0.1; // Gap between elements
+    }
+    return duration;
+}
 
-function setupAudio() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    oscillator = audioContext.createOscillator();
+// Function to play a single Morse code character
+function playMorseChar(char, startTime, audioContext) {
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
     oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(600, audioContext.currentTime);
-}
+    oscillator.frequency.setValueAtTime(600, startTime);
 
-// Function to play a dot (short beep)
-function playDot() {
-    const gainNode = audioContext.createGain();
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.01);
-    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.11);
+    gainNode.gain.setValueAtTime(0, startTime);
+    gainNode.gain.linearRampToValueAtTime(1, startTime + 0.01);
 
     oscillator.connect(gainNode);
     gainNode.connect(audioContext.destination);
 
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
-}
+    oscillator.start(startTime);
 
-// Function to play a dash (long beep)
-function playDash() {
-    const gainNode = audioContext.createGain();
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(1, audioContext.currentTime + 0.01);
-    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.31);
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
+    if (char === '.') {
+        gainNode.gain.linearRampToValueAtTime(0, startTime + 0.11);
+        oscillator.stop(startTime + 0.11);
+    } else if (char === '-') {
+        gainNode.gain.linearRampToValueAtTime(0, startTime + 0.31);
+        oscillator.stop(startTime + 0.31);
+    }
 }
 
 // Function to play Morse code
 function playMorseCode(morseCode) {
-    setupAudio();
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     let currentTime = audioContext.currentTime;
 
     for (let i = 0; i < morseCode.length; i++) {
-        if (morseCode[i] === '.') {
-            setTimeout(() => playDot(), (currentTime - audioContext.currentTime) * 1000);
-            currentTime += 0.2;
-        } else if (morseCode[i] === '-') {
-            setTimeout(() => playDash(), (currentTime - audioContext.currentTime) * 1000);
-            currentTime += 0.4;
+        if (morseCode[i] === '.' || morseCode[i] === '-') {
+            playMorseChar(morseCode[i], currentTime, audioContext);
+            currentTime += (morseCode[i] === '.' ? 0.2 : 0.4);
         } else if (morseCode[i] === ' ') {
             currentTime += 0.2;
         } else if (morseCode[i] === '/') {
