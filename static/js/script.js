@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             englishToMorseBtn.classList.remove('active');
             morseToEnglishBtn.classList.add('active');
         }
+        // Clear both input and output textareas
+        inputTextarea.value = '';
+        outputTextarea.value = '';
         translate();
     }
 
